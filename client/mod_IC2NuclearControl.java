@@ -44,7 +44,7 @@ public class mod_IC2NuclearControl extends NetworkMod
         {
             Properties props = new Properties();
             props.load(new FileInputStream(file));
-            blockId = Integer.parseInt(props.getProperty("thermo_blockid", "192"));
+            blockId = Integer.parseInt(props.getProperty("thermo_blockid", "175"));
         }
         file = getConfigFile("IC2Thermometer.cfg");
         Configuration configuration;
