@@ -73,7 +73,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
     {
         int var3 = NuclearHelper.getReactorHeat(var2);
 
-        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
+        switch (this.thermometerVersion.ordinal())
         {
             case 1:
                 mod_IC2NuclearControl.chatMessage(var1, "Hull heat: " + var3);
@@ -87,7 +87,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
     public void damage(ItemStack var1, int var2, EntityHuman var3)
     {
-        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
+        switch (this.thermometerVersion.ordinal())
         {
             case 1:
                 var1.damage(10, var3);
