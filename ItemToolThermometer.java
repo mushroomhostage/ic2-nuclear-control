@@ -97,30 +97,4 @@ public class ItemToolThermometer extends Item implements ITextureProvider
                 ElectricItem.use(var1, 50 * var2, var3);
         }
     }
-
-    static class NamelessClass1845284373
-    {
-        static final int[] $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion = new int[ThermometerVersion.values().length];
-
-        static
-        {
-            try
-            {
-                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.ANALOG.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var2)
-            {
-                ;
-            }
-
-            try
-            {
-                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.DIGITAL.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var1)
-            {
-                ;
-            }
-        }
-    }
 }
