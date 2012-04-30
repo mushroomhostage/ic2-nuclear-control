@@ -36,37 +36,36 @@ public class mod_IC2NuclearControl extends NetworkMod
     private static Configuration importConfig()
         throws IOException
     {
-        int blockId = -1;
-        int thermoAnalog = -1;
-        int thermoDigital = -1;
+        int i = -1;
+        int j = -1;
+        int k = -1;
         File file = getConfigFile("mod_thermo.cfg");
         if(file.exists() && file.canRead())
         {
-            Properties props = new Properties();
-            props.load(new FileInputStream(file));
-            blockId = Integer.parseInt(props.getProperty("thermo_blockid", "175"));
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(file));
+            i = Integer.parseInt(properties.getProperty("thermo_blockid", "175"));
         }
         file = getConfigFile("IC2Thermometer.cfg");
-        Configuration configuration;
         if(file.exists() && file.canRead())
         {
-            configuration = new Configuration(file);
+            Configuration configuration = new Configuration(file);
             configuration.load();
-            thermoAnalog = getOldIdFor(configuration, "itemToolThermometer", 31000);
-            thermoDigital = getOldIdFor(configuration, "itemToolDigitalThermometer", 31001);
+            j = getOldIdFor(configuration, "itemToolThermometer", 31000);
+            k = getOldIdFor(configuration, "itemToolDigitalThermometer", 31001);
         }
-        System.out.println((new StringBuilder()).append("Imported:").append(blockId).append(" ").append(thermoAnalog).append(" ").append(thermoDigital).toString());
+        System.out.println((new StringBuilder()).append("Imported:").append(i).append(" ").append(j).append(" ").append(k).toString());
         file = getConfigFile("IC2NuclearControl.cfg");
-        configuration = new Configuration(file);
-        configuration.load();
-        if(thermoAnalog != -1)
-            getIdFor(configuration, "itemToolThermometer", thermoAnalog, false);
-        if(thermoDigital != -1)
-            getIdFor(configuration, "itemToolDigitalThermometer", thermoDigital, false);
-        if(blockId != -1)
-            getIdFor(configuration, "blockNuclearControlMain", blockId, true);
-        configuration.save();
-        return configuration;
+        Configuration configuration1 = new Configuration(file);
+        configuration1.load();
+        if(j != -1)
+            getIdFor(configuration1, "itemToolThermometer", j, false);
+        if(k != -1)
+            getIdFor(configuration1, "itemToolDigitalThermometer", k, false);
+        if(i != -1)
+            getIdFor(configuration1, "blockNuclearControlMain", i, true);
+        configuration1.save();
+        return configuration1;
     }
 
     public void load()
@@ -136,7 +135,7 @@ public class mod_IC2NuclearControl extends NetworkMod
 
     public void initBlocks(Configuration configuration)
     {
-        IC2Thermo = (new BlockIC2Thermo(getIdFor(configuration, "blockNuclearControlMain", 192, true), 0)).c(0.5F).a("blockThermalMonitor").k();
+        IC2Thermo = (new BlockIC2Thermo(getIdFor(configuration, "blockNuclearControlMain", 175, true), 0)).c(0.5F).a("blockThermalMonitor").k();
         itemToolThermometer = (new ItemToolThermometer(getIdFor(configuration, "itemToolThermometer", 31000, false), 2, ThermometerVersion.ANALOG)).a("ItemToolThermometer");
         itemToolDigitalThermometer = (new ItemToolDigitalThermometer(getIdFor(configuration, "itemToolDigitalThermometer", 31001, false), 18, ThermometerVersion.DIGITAL, 1, 80, 80)).a("ItemToolDigitalThermometer");
     }
