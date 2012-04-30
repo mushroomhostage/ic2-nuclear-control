@@ -1,0 +1,13 @@
+data/server/net/minecraft/src/mod_IC2NuclearControl.java.i
+data/client/net/minecraft/src/nuclearcontrol/GuiIC2Thermo.java.i
+data/client/net/minecraft/src/nuclearcontrol/TileEntityIC2ThermoRenderer.java.i
+data/common/net/minecraft/src/nuclearcontrol/TileEntityIC2Thermo.java.i
+data/common/net/minecraft/src/nuclearcontrol/BlockIC2Thermo.java.i
+data/common/net/minecraft/src/nuclearcontrol/NuclearHelper.java.i
+data/common/net/minecraft/src/nuclearcontrol/ThermometerVersion.java.i
+data/common/net/minecraft/src/nuclearcontrol/ItemToolThermometer.java.i
+data/client/img/texture_thermo.png.i
+data/.hgignore.i
+data/client/net/minecraft/src/nuclearcontrol/GuiIC2ThermoSlider.java.i
+data/common/net/minecraft/src/nuclearcontrol/ItemToolDigitalThermometer.java.i
+data/client/net/minecraft/src/mod_IC2NuclearControl.java.i
