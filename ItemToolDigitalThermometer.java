@@ -2,8 +2,8 @@ package nuclearcontrol;
 
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
-import net.minecraft.src.EntityHuman;
-import net.minecraft.src.ItemStack;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.ItemStack;
 
 public class ItemToolDigitalThermometer extends ItemToolThermometer implements IElectricItem
 {

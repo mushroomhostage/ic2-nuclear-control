@@ -7,9 +7,9 @@ import ic2.api.IWrenchable;
 import ic2.api.NetworkHelper;
 import java.util.List;
 import java.util.Vector;
-import net.minecraft.src.EntityHuman;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.TileEntity;
 
 public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable
 {

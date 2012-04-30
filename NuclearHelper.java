@@ -4,10 +4,10 @@ import ic2.api.Ic2Recipes;
 import ic2.api.Items;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import net.minecraft.src.ChunkPosition;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
+import net.minecraft.server.ChunkPosition;
+import net.minecraft.server.ItemStack;
+import net.minecraft.server.TileEntity;
+import net.minecraft.server.World;
 
 public class NuclearHelper
 {
@@ -35,7 +35,7 @@ public class NuclearHelper
             }
             else
             {
-                var1 = "net.minecraft.src.ic2";
+                var1 = "net.minecraft.server.ic2";
             }
 
             var1 = var1 + ".common";

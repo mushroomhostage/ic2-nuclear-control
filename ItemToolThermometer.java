@@ -2,12 +2,12 @@ package nuclearcontrol;
 
 import forge.ITextureProvider;
 import ic2.api.ElectricItem;
-import net.minecraft.src.EntityHuman;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-import net.minecraft.src.mod_IC2NuclearControl;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.Item;
+import net.minecraft.server.ItemStack;
+import net.minecraft.server.TileEntity;
+import net.minecraft.server.World;
+import net.minecraft.server.mod_IC2NuclearControl;
 
 public class ItemToolThermometer extends Item implements ITextureProvider
 {
@@ -73,7 +73,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
     {
         int var3 = NuclearHelper.getReactorHeat(var2);
 
-        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net$minecraft$src$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
+        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
         {
             case 1:
                 mod_IC2NuclearControl.chatMessage(var1, "Hull heat: " + var3);
@@ -87,7 +87,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
     public void damage(ItemStack var1, int var2, EntityHuman var3)
     {
-        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net$minecraft$src$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
+        switch (ItemToolThermometer.NamelessClass1845284373.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
         {
             case 1:
                 var1.damage(10, var3);
@@ -100,13 +100,13 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
     static class NamelessClass1845284373
     {
-        static final int[] $SwitchMap$net$minecraft$src$nuclearcontrol$ThermometerVersion = new int[ThermometerVersion.values().length];
+        static final int[] $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion = new int[ThermometerVersion.values().length];
 
         static
         {
             try
             {
-                $SwitchMap$net$minecraft$src$nuclearcontrol$ThermometerVersion[ThermometerVersion.ANALOG.ordinal()] = 1;
+                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.ANALOG.ordinal()] = 1;
             }
             catch (NoSuchFieldError var2)
             {
@@ -115,7 +115,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
             try
             {
-                $SwitchMap$net$minecraft$src$nuclearcontrol$ThermometerVersion[ThermometerVersion.DIGITAL.ordinal()] = 2;
+                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.DIGITAL.ordinal()] = 2;
             }
             catch (NoSuchFieldError var1)
             {
