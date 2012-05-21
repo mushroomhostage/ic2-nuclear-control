@@ -15,6 +15,9 @@ import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.TileEntity;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInventory, IEnergySink, ISlotItemFilter
 {
@@ -38,6 +41,32 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     public int energy = 0;
     private boolean addedToEnergyNet = false;
     private ItemStack[] inventory = new ItemStack[5];
+    public List transaction = new ArrayList();
+
+    public void onOpen(CraftHumanEntity crafthumanentity)
+    {
+        transaction.add(crafthumanentity);
+    }
+
+    public void onClose(CraftHumanEntity crafthumanentity)
+    {
+        transaction.remove(crafthumanentity);
+    }
+
+    public List getViewers()
+    {
+        return transaction;
+    }
+
+    public void setMaxStackSize(int i)
+    {
+    }
+
+    public ItemStack[] getContents()
+    {
+        return inventory;
+    }
+
 
     public List getNetworkedFields()
     {
