@@ -2,6 +2,7 @@ package nuclearcontrol;
 
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
+import java.util.ArrayList;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.ItemStack;
 
@@ -59,5 +60,13 @@ public class ItemToolDigitalThermometer extends ItemToolThermometer implements I
     public int getTransferLimit()
     {
         return 250;
+    }
+
+    public void addCreativeItems(ArrayList var1)
+    {
+        ItemStack var2 = new ItemStack(this, 1);
+        ElectricItem.charge(var2, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
+        var1.add(var2);
+        var1.add(new ItemStack(this, 1, this.getMaxDurability()));
     }
 }

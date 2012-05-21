@@ -8,23 +8,24 @@ import ic2.api.NetworkHelper;
 import java.util.List;
 import java.util.Vector;
 import net.minecraft.server.EntityHuman;
+import net.minecraft.server.Facing;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 
-public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable
+public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable, ITextureHelper
 {
-    private boolean init = false;
+    protected boolean init = false;
     private int prevHeatLevel = 500;
     public int heatLevel = 500;
     private int mappedHeatLevel = 500;
-    private byte prevOnFire = 0;
-    public byte onFire = 0;
+    private int prevOnFire = 0;
+    public int onFire = 0;
     private short prevFacing = 0;
     public short facing = 0;
-    private int updateTicker = 0;
-    private int tickRate = -1;
+    protected int updateTicker = 0;
+    protected int tickRate = -1;
 
-    public void initData()
+    protected void initData()
     {
         if (this.world.isStatic)
         {
@@ -36,10 +37,15 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
 
     public short getFacing()
     {
-        return this.facing;
+        return (short)Facing.OPPOSITE_FACING[this.facing];
     }
 
     public void setFacing(short var1)
+    {
+        this.setSide((short)Facing.OPPOSITE_FACING[var1]);
+    }
+
+    private void setSide(short var1)
     {
         this.facing = var1;
 
@@ -87,7 +93,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         this.setHeatLevel(var2);
     }
 
-    public void setOnFire(byte var1)
+    public void setOnFire(int var1)
     {
         this.onFire = var1;
 
@@ -99,7 +105,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         this.prevOnFire = this.onFire;
     }
 
-    public byte getOnFire()
+    public int getOnFire()
     {
         return this.onFire;
     }
@@ -160,7 +166,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         var1.setShort("facing", this.facing);
     }
 
-    private void checkStatus()
+    protected void checkStatus()
     {
         TileEntity var2 = NuclearHelper.getReactorChamberAroundCoord(this.world, this.x, this.y, this.z);
         TileEntity var3 = null;
@@ -252,5 +258,34 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
     public float getWrenchDropRate()
     {
         return 1.0F;
+    }
+
+    public int modifyTextureIndex(int var1)
+    {
+        if (var1 != 0)
+        {
+            return var1;
+        }
+        else
+        {
+            int var2 = this.getOnFire();
+            byte var3;
+
+            switch (var2)
+            {
+                case 0:
+                    var3 = 0;
+                    break;
+
+                case 1:
+                    var3 = 16;
+                    break;
+
+                default:
+                    var3 = 32;
+            }
+
+            return var3;
+        }
     }
 }
