@@ -236,4 +236,9 @@ public class mod_IC2NuclearControl extends NetworkMod implements IGuiHandler
     {
         return "v1.1.6";
     }
+
+    public String getPriorities()
+    {
+        return "after:mod_IC2";
+    }
 }
