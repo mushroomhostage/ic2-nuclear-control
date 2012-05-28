@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.Facing;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.ic2.api.INetworkClientTileEntityEventListener;
@@ -12,19 +13,22 @@ import net.minecraft.src.ic2.api.INetworkUpdateListener;
 import net.minecraft.src.ic2.api.IWrenchable;
 import net.minecraft.src.ic2.api.NetworkHelper;
 
-public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable
+public class TileEntityIC2Thermo extends TileEntity implements 
+        INetworkDataProvider, INetworkUpdateListener, 
+        INetworkClientTileEntityEventListener, IWrenchable,
+        ITextureHelper
 {
-    private boolean init;
+    protected boolean init;
     private int prevHeatLevel;
     public int heatLevel;
     private int mappedHeatLevel;
-    private byte prevOnFire;
-    public byte onFire;
+    private int prevOnFire;
+    public int onFire;
     private short prevFacing;
     public short facing;
 
-    private int updateTicker;
-    private int tickRate;
+    protected int updateTicker;
+    protected int tickRate;
 
     public TileEntityIC2Thermo()
     {
@@ -40,7 +44,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         tickRate = -1;
     }
 
-    public void initData()
+    protected void initData()
     {
     	if(worldObj.isRemote){
     		NetworkHelper.requestInitialData(this);
@@ -48,12 +52,20 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         init = true;
     }
 
+    @Override
     public short getFacing()
     {
-        return facing;
+        return (short)Facing.faceToSide[facing];
+    }
+    
+    @Override
+    public void setFacing(short f)
+    {
+        setSide((short)Facing.faceToSide[f]);
+    
     }
 
-    public void setFacing(short f)
+    private void setSide(short f)
     {
         facing = f;
 
@@ -65,6 +77,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         prevFacing = f;
     }
 
+    @Override
     public List<String> getNetworkedFields()
     {
         Vector<String> vector = new Vector<String>(3);
@@ -74,19 +87,20 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         return vector;
     }
     
-    public void onNetworkUpdate(String s)
+    @Override
+    public void onNetworkUpdate(String field)
     {
-        if (s.equals("heatLevel") && prevHeatLevel != heatLevel)
+        if (field.equals("heatLevel") && prevHeatLevel != heatLevel)
         {
             worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
             prevHeatLevel = heatLevel;
         }
-        if (s.equals("facing") && prevFacing != facing)
+        if (field.equals("facing") && prevFacing != facing)
         {
             worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
             prevFacing = facing;
         }
-        if (s.equals("onFire") && prevOnFire != onFire)
+        if (field.equals("onFire") && prevOnFire != onFire)
         {
             worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
             worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(xCoord, yCoord, zCoord));
@@ -99,7 +113,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         setHeatLevel(i);
     }
     
-    public void setOnFire(byte f)
+    public void setOnFire(int f)
     {
         onFire = f;
         if (prevOnFire != f)
@@ -109,7 +123,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         prevOnFire = onFire;
     }
     
-    public byte getOnFire()
+    public int getOnFire()
     {
         return onFire;
     }
@@ -137,6 +151,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
     	return heatLevel;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readFromNBT(nbttagcompound);
@@ -154,6 +169,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         }
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
@@ -161,7 +177,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         nbttagcompound.setShort("facing", facing);
     }
 
-    private void checkStatus()
+    protected void checkStatus()
     {
     	byte fire;
         TileEntity chamber = NuclearHelper.getReactorChamberAroundCoord(worldObj, xCoord, yCoord, zCoord);
@@ -200,6 +216,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         }
     }
 
+    @Override
     public void updateEntity()
     {
         if (!init)
@@ -233,5 +250,26 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
     public float getWrenchDropRate()
     {
         return 1;
+    }
+
+    @Override
+    public int modifyTextureIndex(int texture)
+    {
+        if(texture != 0)
+            return texture;
+        int fireState = getOnFire();
+        switch (fireState)
+        {
+            case 1:
+                texture = 16;
+                break;
+            case 0:
+                texture = 0;
+                break;
+            default:
+                texture = 32;
+                break;
+        }
+        return texture;
     }
 }
