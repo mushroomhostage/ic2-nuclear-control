@@ -73,13 +73,13 @@ public class ItemToolThermometer extends Item implements ITextureProvider
     {
         int var3 = NuclearHelper.getReactorHeat(var2);
 
-        switch (this.thermometerVersion.ordinal())
+        switch (thermometerVersion) 
         {
-            case 1:
+            case ANALOG:
                 mod_IC2NuclearControl.chatMessage(var1, "Hull heat: " + var3);
                 break;
 
-            case 2:
+            case DIGITAL:
                 int var4 = NuclearHelper.getMaxHeat(var2);
                 mod_IC2NuclearControl.chatMessage(var1, "Hull heat: " + var3 + " (Water evaporate: " + var4 * 50 / 100 + " / melting: " + var4 * 85 / 100 + ")");
         }
@@ -87,13 +87,13 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
     public void damage(ItemStack var1, int var2, EntityHuman var3)
     {
-        switch (this.thermometerVersion.ordinal())
+        switch (thermometerVersion)
         {
-            case 1:
+            case ANALOG:
                 var1.damage(10, var3);
                 break;
 
-            case 2:
+            case DIGITAL:
                 ElectricItem.use(var1, 50 * var2, var3);
         }
     }
