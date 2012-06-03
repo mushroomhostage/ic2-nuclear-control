@@ -1,9 +1,6 @@
 package nuclearcontrol;
 
-import net.minecraft.server.Container;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.ItemStack;
-import net.minecraft.server.Slot;
+import net.minecraft.server.*;
 
 public class ContainerRemoteThermo extends Container
 {
@@ -33,6 +30,16 @@ public class ContainerRemoteThermo extends Container
         {
             this.a(new Slot(var1.inventory, var3, 8 + var3 * 18, 142));
         }
+    }
+    
+    public EntityHuman getPlayer()
+    {
+        return player;
+    }
+
+    public IInventory getInventory()
+    {
+        return remoteThermo;
     }
 
     public boolean b(EntityHuman var1)
