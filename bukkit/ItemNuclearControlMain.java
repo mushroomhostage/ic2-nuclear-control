@@ -36,6 +36,12 @@ public class ItemNuclearControlMain extends ItemBlock
             case 3:
                 return "tile.blockRemoteThermo";
 
+            case 4:
+                return "tile.blockInfoPanel";
+
+            case 5:
+                return "tile.blockInfoPanelExtender";
+
             default:
                 return "";
         }

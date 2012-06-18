@@ -17,6 +17,9 @@ public class NuclearHelper
     private static ItemStack reactor = null;
     private static ItemStack chamber = null;
     private static Field heatField = null;
+    private static Field outputField = null;
+    private static Method tickRateMethod = null;
+    private static Method producingEnergyMethod = null;
 
     private static String getReactorPackage()
     {
@@ -106,6 +109,36 @@ public class NuclearHelper
         }
 
         return heatField;
+    }
+
+    private static Field getOutputField() throws NoSuchFieldException
+    {
+        if (outputField == null)
+        {
+            outputField = getReactorTileEntityClass().getField("output");
+        }
+
+        return outputField;
+    }
+
+    private static Method getTickRateMethod() throws NoSuchMethodException
+    {
+        if (tickRateMethod == null)
+        {
+            tickRateMethod = getReactorTileEntityClass().getMethod("tickRate", new Class[0]);
+        }
+
+        return tickRateMethod;
+    }
+
+    private static Method getProducingEnergyMethod() throws NoSuchMethodException
+    {
+        if (producingEnergyMethod == null)
+        {
+            producingEnergyMethod = getReactorTileEntityClass().getMethod("produceEnergy", new Class[0]);
+        }
+
+        return producingEnergyMethod;
     }
 
     public static TileEntity getReactorAt(World var0, int var1, int var2, int var3)
@@ -213,11 +246,35 @@ public class NuclearHelper
         }
     }
 
+    public static int getReactorOutput(TileEntity var0)
+    {
+        try
+        {
+            return getOutputField().getShort(var0);
+        }
+        catch (Exception var2)
+        {
+            throw new RuntimeException(var2);
+        }
+    }
+
     public static int getReactorTickRate(TileEntity var0)
     {
         try
         {
-            return ((Integer)getReactorTileEntityClass().getMethod("tickRate", new Class[0]).invoke(var0, new Object[0])).intValue();
+            return ((Integer)getTickRateMethod().invoke(var0, new Object[0])).intValue();
+        }
+        catch (Exception var2)
+        {
+            throw new RuntimeException(var2);
+        }
+    }
+
+    public static boolean getReactorIsProducingEnergy(TileEntity var0)
+    {
+        try
+        {
+            return ((Boolean)getProducingEnergyMethod().invoke(var0, new Object[0])).booleanValue();
         }
         catch (Exception var2)
         {

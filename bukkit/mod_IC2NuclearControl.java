@@ -8,11 +8,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import nuclearcontrol.ContainerInfoPanel;
 import nuclearcontrol.ContainerRemoteThermo;
 import nuclearcontrol.IC2NuclearControl;
 import nuclearcontrol.TileEntityHowlerAlarm;
 import nuclearcontrol.TileEntityIC2Thermo;
 import nuclearcontrol.TileEntityIndustrialAlarm;
+import nuclearcontrol.TileEntityInfoPanel;
+import nuclearcontrol.TileEntityInfoPanelExtender;
 import nuclearcontrol.TileEntityRemoteThermo;
 
 public class mod_IC2NuclearControl extends IC2NuclearControl
@@ -65,6 +68,8 @@ public class mod_IC2NuclearControl extends IC2NuclearControl
         ModLoader.registerTileEntity(TileEntityHowlerAlarm.class, "IC2HowlerAlarm");
         ModLoader.registerTileEntity(TileEntityIndustrialAlarm.class, "IC2IndustrialAlarm");
         ModLoader.registerTileEntity(TileEntityRemoteThermo.class, "IC2RemoteThermo");
+        ModLoader.registerTileEntity(TileEntityInfoPanel.class, "IC2NCInfoPanel");
+        ModLoader.registerTileEntity(TileEntityInfoPanelExtender.class, "IC2NCInfoPanelExtender");
         MinecraftForge.setGuiHandler(this, this);
 
         if (var1 != null)
@@ -80,17 +85,25 @@ public class mod_IC2NuclearControl extends IC2NuclearControl
 
     public Object getGuiElement(int var1, EntityHuman var2, World var3, int var4, int var5, int var6)
     {
+        TileEntity var7;
+
         switch (var1)
         {
             case 0:
                 return null;
 
-            case 3:
-                TileEntity var7 = var3.getTileEntity(var4, var5, var6);
-                return new ContainerRemoteThermo(var2, (TileEntityRemoteThermo)var7);
-
+            case 1:
+            case 2:
             default:
                 return null;
+
+            case 3:
+                var7 = var3.getTileEntity(var4, var5, var6);
+                return new ContainerRemoteThermo(var2, (TileEntityRemoteThermo)var7);
+
+            case 4:
+                var7 = var3.getTileEntity(var4, var5, var6);
+                return new ContainerInfoPanel(var2, (TileEntityInfoPanel)var7);
         }
     }
 

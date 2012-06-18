@@ -22,10 +22,12 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     public static final int DAMAGE_INDUSTRIAL_ALARM = 1;
     public static final int DAMAGE_HOWLER_ALARM = 2;
     public static final int DAMAGE_REMOTE_THERMO = 3;
-    public static final int DAMAGE_MAX = 3;
-    public static final float[][] blockSize = new float[][] {{0.0625F, 0.0F, 0.0625F, 0.9375F, 0.4375F, 0.9375F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}};
-    private static final boolean[] solidBlockRequired = new boolean[] {true, true, true, false};
-    private static final byte[][][] sideMapping = new byte[][][] {{{(byte)1, (byte)0, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)0, (byte)1, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)17, (byte)17, (byte)1, (byte)0, (byte)33, (byte)33}, {(byte)17, (byte)17, (byte)0, (byte)1, (byte)33, (byte)33}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)1, (byte)0}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)0, (byte)1}}, {{(byte)4, (byte)3, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)3, (byte)4, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)5, (byte)5, (byte)4, (byte)3, (byte)6, (byte)6}, {(byte)5, (byte)5, (byte)3, (byte)4, (byte)6, (byte)6}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)4, (byte)3}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)3, (byte)4}}, {{(byte)8, (byte)7, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)7, (byte)8, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)9, (byte)9, (byte)8, (byte)7, (byte)10, (byte)10}, {(byte)9, (byte)9, (byte)7, (byte)8, (byte)10, (byte)10}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)8, (byte)7}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)7, (byte)8}}, {{(byte)23, (byte)25, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)25, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)25, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)25, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)25}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)25, (byte)23}}};
+    public static final int DAMAGE_INFO_PANEL = 4;
+    public static final int DAMAGE_INFO_PANEL_EXTENDER = 5;
+    public static final int DAMAGE_MAX = 5;
+    public static final float[][] blockSize = new float[][] {{0.0625F, 0.0F, 0.0625F, 0.9375F, 0.4375F, 0.9375F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}};
+    private static final boolean[] solidBlockRequired = new boolean[] {true, true, true, false, false, false};
+    private static final byte[][][] sideMapping = new byte[][][] {{{(byte)1, (byte)0, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)0, (byte)1, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)17, (byte)17, (byte)1, (byte)0, (byte)33, (byte)33}, {(byte)17, (byte)17, (byte)0, (byte)1, (byte)33, (byte)33}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)1, (byte)0}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)0, (byte)1}}, {{(byte)4, (byte)3, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)3, (byte)4, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)5, (byte)5, (byte)4, (byte)3, (byte)6, (byte)6}, {(byte)5, (byte)5, (byte)3, (byte)4, (byte)6, (byte)6}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)4, (byte)3}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)3, (byte)4}}, {{(byte)8, (byte)7, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)7, (byte)8, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)9, (byte)9, (byte)8, (byte)7, (byte)10, (byte)10}, {(byte)9, (byte)9, (byte)7, (byte)8, (byte)10, (byte)10}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)8, (byte)7}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)7, (byte)8}}, {{(byte)23, (byte)25, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)25, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)25, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)25, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)25}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)25, (byte)23}}, {{(byte)23, (byte)11, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)11, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)11, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)11, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)11}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)11, (byte)23}}, {{(byte)39, (byte)11, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)11, (byte)39, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)39, (byte)11, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)11, (byte)39, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)39, (byte)11}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)11, (byte)39}}};
 
     public BlockNuclearControlMain(int var1, int var2)
     {
@@ -94,7 +96,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
         int var6 = Facing.OPPOSITE_FACING[var5];
         int var7 = var1.getData(var2, var3, var4);
 
-        if (var7 > 3)
+        if (var7 > 5)
         {
             var7 = 0;
         }
@@ -118,7 +120,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
         super.onPlace(var1, var2, var3, var4);
         int var5 = var1.getData(var2, var3, var4);
 
-        if (var5 > 3)
+        if (var5 > 5)
         {
             var5 = 0;
         }
@@ -255,7 +257,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     {
         int var5 = var1.getData(var2, var3, var4);
 
-        if (var5 > 3)
+        if (var5 > 5)
         {
             var5 = 0;
         }
@@ -355,6 +357,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
                 case DAMAGE_REMOTE_THERMO:
                 case DAMAGE_HOWLER_ALARM:
                 case DAMAGE_INDUSTRIAL_ALARM:
+                case DAMAGE_INFO_PANEL:
                     mod_IC2NuclearControl.launchGui(var1, var2, var3, var4, var5, var6);
                     return true;
 
@@ -448,7 +451,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
      */
     public int a(int var1, int var2)
     {
-        if (var2 > 3)
+        if (var2 > 5)
         {
             var2 = 0;
         }
@@ -469,7 +472,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
 
         int var8 = var1.getData(var2, var3, var4);
 
-        if (var8 > 3)
+        if (var8 > 5)
         {
             var8 = 0;
         }
@@ -508,6 +511,12 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
             case 3:
                 return new TileEntityRemoteThermo();
 
+            case 4:
+                return new TileEntityInfoPanel();
+
+            case 5:
+                return new TileEntityInfoPanelExtender();
+
             default:
                 return null;
         }
@@ -518,7 +527,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
      */
     protected int getDropData(int var1)
     {
-        return var1 > 0 && var1 <= 3 ? var1 : 0;
+        return var1 > 0 && var1 <= 5 ? var1 : 0;
     }
 
     public boolean isBlockSolidOnSide(World var1, int var2, int var3, int var4, int var5)
@@ -530,7 +539,24 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     public int getLightValue(IBlockAccess var1, int var2, int var3, int var4)
     {
         TileEntity var5 = var1.getTileEntity(var2, var3, var4);
-        return var5 instanceof TileEntityIndustrialAlarm ? ((TileEntityIndustrialAlarm)var5).lightLevel : lightEmission[this.id];
+
+        if (var5 instanceof TileEntityIndustrialAlarm)
+        {
+            return ((TileEntityIndustrialAlarm)var5).lightLevel;
+        }
+        else if (var5 instanceof TileEntityInfoPanel)
+        {
+            return ((TileEntityInfoPanel)var5).powered ? 7 : 0;
+        }
+        else if (var5 instanceof TileEntityInfoPanelExtender)
+        {
+            TileEntityInfoPanelExtender var6 = (TileEntityInfoPanelExtender)var5;
+            return var6.getScreen() != null && var6.getScreen().getCore() != null && var6.getScreen().getCore().powered ? 7 : 0;
+        }
+        else
+        {
+            return lightEmission[this.id];
+        }
     }
 
     public void addCreativeItems(ArrayList var1)
@@ -539,5 +565,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
         var1.add(new ItemStack(this, 1, 1));
         var1.add(new ItemStack(this, 1, 2));
         var1.add(new ItemStack(this, 1, 3));
+        var1.add(new ItemStack(this, 1, 4));
+        var1.add(new ItemStack(this, 1, 5));
     }
 }

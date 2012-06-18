@@ -193,7 +193,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
                 --this.energy;
             }
 
-            if (this.inventory[0] != null && this.energy < this.maxStorage && this.inventory[0] != null)
+            if (this.inventory[0] != null && this.energy < this.maxStorage)
             {
                 if (this.inventory[0].getItem() instanceof IElectricItem)
                 {

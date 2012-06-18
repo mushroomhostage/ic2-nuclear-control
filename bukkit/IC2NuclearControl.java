@@ -42,12 +42,13 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
     public static int SMPMaxAlarmRange;
     public static int maxAlarmRange;
     public static List availableAlarms;
+    public static ScreenManager screenManager = new ScreenManager();
 
     public abstract Object getGuiElement(int var1, EntityHuman var2, World var3, int var4, int var5, int var6);
 
     public String getVersion()
     {
-        return "v1.1.8";
+        return "v1.1.9";
     }
 
     protected void addRecipes()
@@ -59,6 +60,8 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
         ItemStack var3 = new ItemStack(blockNuclearControlMain, 1, 1);
         Ic2Recipes.addCraftingRecipe(var3, new Object[] {"GOG", "GHG", "GRG", 'G', Items.getItem("reinforcedGlass"), 'O', new ItemStack(Item.INK_SACK, 1, 14), 'R', Item.REDSTONE, 'H', var2});
         Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 3), new Object[] {" F ", " M ", " T ", 'T', var1, 'M', Items.getItem("machine"), 'F', Items.getItem("frequencyTransmitter")});
+        Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 4), new Object[] {"PPP", "LCL", "IRI", 'P', Block.THIN_GLASS, 'L', new ItemStack(Item.INK_SACK, 1, 10), 'I', new ItemStack(Item.INK_SACK, 1, 0), 'R', Item.REDSTONE, 'C', Items.getItem("electronicCircuit")});
+        Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 5), new Object[] {"PPP", "WLW", "WWW", 'P', Block.THIN_GLASS, 'L', new ItemStack(Item.INK_SACK, 1, 10), 'W', Block.WOOD});
         Ic2Recipes.addCraftingRecipe(new ItemStack(itemToolThermometer, 1), new Object[] {"IG ", "GWG", " GG", 'G', Block.GLASS, 'I', Item.IRON_INGOT, 'W', Items.getItem("waterCell")});
         ItemStack var4 = new ItemStack(itemToolDigitalThermometer, 1);
         Ic2Recipes.addCraftingRecipe(var4, new Object[] {"I  ", "IC ", " GI", 'G', Item.GLOWSTONE_DUST, 'I', Items.getItem("refinedIronIngot"), 'C', Items.getItem("electronicCircuit")});
