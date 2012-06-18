@@ -16,6 +16,10 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class TileEntityInfoPanel extends TileEntity implements IInventory, ISlotItemFilter, INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable, IRedstoneConsumer, ITextureHelper, IScreenPart
 {
@@ -56,6 +60,33 @@ public class TileEntityInfoPanel extends TileEntity implements IInventory, ISlot
     public int maxHeat;
     private short prevFacing;
     public short facing;
+    public List transaction = new ArrayList();
+
+    public void onOpen(CraftHumanEntity crafthumanentity)
+    {
+        transaction.add(crafthumanentity);
+    }
+
+    public void onClose(CraftHumanEntity crafthumanentity)
+    {
+        transaction.remove(crafthumanentity);
+    }
+
+    public List getViewers()
+    {
+        return transaction;
+    }
+
+    public void setMaxStackSize(int i)
+    {
+    }
+
+    public ItemStack[] getContents()
+    {
+        return inventory;
+    }
+
+
 
     public short getFacing()
     {
