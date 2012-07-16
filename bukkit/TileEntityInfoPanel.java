@@ -277,7 +277,7 @@ public class TileEntityInfoPanel extends TileEntity implements ISlotItemFilter, 
 
         if (var1.hasKey("dSets"))
         {
-            int[] var2 = var1.func_48445_l("dSets");
+            int[] var2 = var1.getIntArray("dSets");
 
             if (var2.length == this.displaySettings.length)
             {
@@ -338,7 +338,7 @@ public class TileEntityInfoPanel extends TileEntity implements ISlotItemFilter, 
     {
         super.b(var1);
         var1.setShort("facing", this.facing);
-        var1.func_48446_a("dSets", this.displaySettings);
+        var1.setIntArray("dSets", this.displaySettings);
         var1.setInt("rotation", this.rotation);
         NBTTagList var2 = new NBTTagList();
 
