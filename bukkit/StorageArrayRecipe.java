@@ -9,6 +9,12 @@ import net.minecraft.server.NBTTagCompound;
 
 public class StorageArrayRecipe implements CraftingRecipe
 {
+    public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() 
+    {
+        // TODO: try to return a real recipe wrapper, like IC2 v1.97 r1 does?
+        return null;
+    }
+
     /**
      * Used to check if a recipe matches current crafting inventory
      */
