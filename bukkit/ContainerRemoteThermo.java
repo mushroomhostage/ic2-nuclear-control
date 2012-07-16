@@ -1,10 +1,6 @@
 package nuclearcontrol;
 
-import net.minecraft.server.Container;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.ICrafting;
-import net.minecraft.server.ItemStack;
-import net.minecraft.server.Slot;
+import net.minecraft.server.*;
 
 public class ContainerRemoteThermo extends Container
 {
@@ -64,6 +60,16 @@ public class ContainerRemoteThermo extends Container
         {
             this.remoteThermo.setEnergy(var2);
         }
+    }
+    
+    public EntityHuman getPlayer()
+    {
+        return player;
+    }
+
+    public IInventory getInventory()
+    {
+        return remoteThermo;
     }
 
     public boolean b(EntityHuman var1)

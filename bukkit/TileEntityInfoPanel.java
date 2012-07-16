@@ -17,6 +17,9 @@ import net.minecraft.server.NBTTagList;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
 import nuclearcontrol.panel.IPanelDataSource;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TileEntityInfoPanel extends TileEntity implements ISlotItemFilter, INetworkDataProvider, INetworkUpdateListener, INetworkClientTileEntityEventListener, IWrenchable, IRedstoneConsumer, ITextureHelper, IScreenPart, ISidedInventory, IRotation
 {
@@ -43,6 +46,31 @@ public class TileEntityInfoPanel extends TileEntity implements ISlotItemFilter, 
     public int rotation;
     private short prevFacing;
     public short facing;
+    public List transaction = new ArrayList();
+
+    public void onOpen(CraftHumanEntity crafthumanentity)
+    {
+        transaction.add(crafthumanentity);
+    }
+
+    public void onClose(CraftHumanEntity crafthumanentity)
+    {
+        transaction.remove(crafthumanentity);
+    }
+
+    public List getViewers()
+    {
+        return transaction;
+    }
+
+    public void setMaxStackSize(int i)
+    {
+    }
+
+    public ItemStack[] getContents()
+    {
+        return inventory;
+    }
 
     public short getFacing()
     {

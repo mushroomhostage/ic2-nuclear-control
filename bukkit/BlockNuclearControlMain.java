@@ -349,11 +349,11 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
         {
             switch (var6)
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
+                case DAMAGE_THERMAL_MONITOR:
+                case DAMAGE_REMOTE_THERMO:
+                case DAMAGE_HOWLER_ALARM:
+                case DAMAGE_INDUSTRIAL_ALARM:
+                case DAMAGE_INFO_PANEL:
                     mod_IC2NuclearControl.launchGui(var1, var2, var3, var4, var5, var6);
                     return true;
 
