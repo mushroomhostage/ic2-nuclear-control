@@ -8,9 +8,9 @@ import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 import net.minecraft.server.mod_IC2NuclearControl;
 
-public class ItemRemoteSensorKit extends Item implements ITextureProvider
+public class ItemEnergySensorKit extends Item implements ITextureProvider
 {
-    public ItemRemoteSensorKit(int var1, int var2)
+    public ItemEnergySensorKit(int var1, int var2)
     {
         super(var1);
         this.d(var2);
@@ -30,23 +30,17 @@ public class ItemRemoteSensorKit extends Item implements ITextureProvider
         }
         else
         {
-            TileEntity var8 = NuclearHelper.getReactorAt(var3, var4, var5, var6);
+            TileEntity var8 = EnergyStorageHelper.getStorageAt(var3, var4, var5, var6);
 
             if (var8 == null)
             {
-                TileEntity var9 = NuclearHelper.getReactorChamberAt(var3, var4, var5, var6);
-
-                if (var9 != null)
-                {
-                    var8 = NuclearHelper.getReactorAroundCoord(var3, var4, var5, var6);
-                }
+                return false;
             }
-
-            if (var8 != null)
+            else
             {
-                ItemStack var10 = new ItemStack(mod_IC2NuclearControl.itemSensorLocationCard, 1, 0);
-                ItemSensorLocationCardBase.setCoordinates(var10, var8.x, var8.y, var8.z);
-                var2.inventory.items[var2.inventory.itemInHandIndex] = var10;
+                ItemStack var9 = new ItemStack(mod_IC2NuclearControl.itemEnergySensorLocationCard, 1, 0);
+                ItemSensorLocationCardBase.setCoordinates(var9, var8.x, var8.y, var8.z);
+                var2.inventory.items[var2.inventory.itemInHandIndex] = var9;
 
                 if (!var3.isStatic)
                 {
@@ -54,10 +48,6 @@ public class ItemRemoteSensorKit extends Item implements ITextureProvider
                 }
 
                 return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

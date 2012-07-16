@@ -1,11 +1,16 @@
 package nuclearcontrol;
 
-import net.minecraft.server.*;
+import net.minecraft.server.Container;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.ICrafting;
+import net.minecraft.server.ItemStack;
+import net.minecraft.server.Slot;
 
 public class ContainerRemoteThermo extends Container
 {
-    TileEntityRemoteThermo remoteThermo;
-    EntityHuman player;
+    public TileEntityRemoteThermo remoteThermo;
+    private EntityHuman player;
+    private int lastEnergy = -1;
 
     public ContainerRemoteThermo(EntityHuman var1, TileEntityRemoteThermo var2)
     {
@@ -31,15 +36,34 @@ public class ContainerRemoteThermo extends Container
             this.a(new Slot(var1.inventory, var3, 8 + var3 * 18, 142));
         }
     }
-    
-    public EntityHuman getPlayer()
+
+    /**
+     * Updates crafting matrix; called from onCraftMatrixChanged. Args: none
+     */
+    public void a()
     {
-        return player;
+        super.a();
+        int var1 = this.remoteThermo.energy;
+
+        for (int var2 = 0; var2 < this.listeners.size(); ++var2)
+        {
+            ICrafting var3 = (ICrafting)this.listeners.get(var2);
+
+            if (this.lastEnergy != var1)
+            {
+                var3.setContainerData(this, 0, var1);
+            }
+        }
+
+        this.lastEnergy = var1;
     }
 
-    public IInventory getInventory()
+    public void updateProgressBar(int var1, int var2)
     {
-        return remoteThermo;
+        if (var1 == 0)
+        {
+            this.remoteThermo.setEnergy(var2);
+        }
     }
 
     public boolean b(EntityHuman var1)

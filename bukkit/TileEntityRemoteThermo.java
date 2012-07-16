@@ -1,5 +1,6 @@
 package nuclearcontrol;
 
+import forge.ISidedInventory;
 import ic2.api.Direction;
 import ic2.api.ElectricItem;
 import ic2.api.EnergyNet;
@@ -10,16 +11,12 @@ import ic2.api.NetworkHelper;
 import java.util.List;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
-import net.minecraft.server.IInventory;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.TileEntity;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-import java.util.List;
-import java.util.ArrayList;
 
-public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInventory, IEnergySink, ISlotItemFilter
+public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements ISidedInventory, IEnergySink, ISlotItemFilter, IRotation
 {
     public static final int SLOT_CHARGER = 0;
     public static final int SLOT_CARD = 1;
@@ -37,44 +34,19 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     public int maxPacketSize = 32;
     private int prevTier;
     public int tier = 1;
-    private int prevEnergy = 0;
+    public int rotation = 0;
+    public int prevRotation = 0;
     public int energy = 0;
     private boolean addedToEnergyNet = false;
     private ItemStack[] inventory = new ItemStack[5];
-    public List transaction = new ArrayList();
-
-    public void onOpen(CraftHumanEntity crafthumanentity)
-    {
-        transaction.add(crafthumanentity);
-    }
-
-    public void onClose(CraftHumanEntity crafthumanentity)
-    {
-        transaction.remove(crafthumanentity);
-    }
-
-    public List getViewers()
-    {
-        return transaction;
-    }
-
-    public void setMaxStackSize(int i)
-    {
-    }
-
-    public ItemStack[] getContents()
-    {
-        return inventory;
-    }
-
 
     public List getNetworkedFields()
     {
         List var1 = super.getNetworkedFields();
         var1.add("maxStorage");
-        var1.add("energy");
         var1.add("tier");
         var1.add("maxPacketSize");
+        var1.add("rotation");
         return var1;
     }
 
@@ -89,7 +61,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
         this.update();
         int var1;
 
-        if (this.energy > 0)
+        if (this.energy >= IC2NuclearControl.remoteThermalMonitorEnergyConsumption)
         {
             TileEntity var2 = NuclearHelper.getReactorAt(this.world, this.x + this.deltaX, this.y + this.deltaY, this.z + this.deltaZ);
 
@@ -135,13 +107,6 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     public void setEnergy(int var1)
     {
         this.energy = var1;
-
-        if (this.energy != this.prevEnergy)
-        {
-            NetworkHelper.updateTileEntityField(this, "energy");
-        }
-
-        this.prevEnergy = this.energy;
     }
 
     public void setTier(int var1)
@@ -154,6 +119,18 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
         }
 
         this.prevTier = this.tier;
+    }
+
+    public void setRotation(int var1)
+    {
+        this.rotation = var1;
+
+        if (this.rotation != this.prevRotation)
+        {
+            NetworkHelper.updateTileEntityField(this, "rotation");
+        }
+
+        this.prevRotation = this.rotation;
     }
 
     public void setMaxPacketSize(int var1)
@@ -188,21 +165,23 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     {
         if (!this.world.isStatic)
         {
-            if (this.energy > 0)
+            int var1 = IC2NuclearControl.remoteThermalMonitorEnergyConsumption;
+
+            if (this.energy >= var1)
             {
-                --this.energy;
+                this.energy -= var1;
             }
 
             if (this.inventory[0] != null && this.energy < this.maxStorage)
             {
                 if (this.inventory[0].getItem() instanceof IElectricItem)
                 {
-                    IElectricItem var1 = (IElectricItem)this.inventory[0].getItem();
+                    IElectricItem var2 = (IElectricItem)this.inventory[0].getItem();
 
-                    if (var1.canProvideEnergy())
+                    if (var2.canProvideEnergy())
                     {
-                        int var2 = ElectricItem.discharge(this.inventory[0], this.maxStorage - this.energy, this.tier, false, false);
-                        this.energy += var2;
+                        int var3 = ElectricItem.discharge(this.inventory[0], this.maxStorage - this.energy, this.tier, false, false);
+                        this.energy += var3;
                     }
                 }
                 else if (this.inventory[0].id == Items.getItem("suBattery").id && (1000 <= this.maxStorage - this.energy || this.energy == 0))
@@ -236,6 +215,12 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     {
         super.a(var1);
         this.energy = var1.getInt("energy");
+
+        if (var1.hasKey("rotation"))
+        {
+            this.prevRotation = this.rotation = var1.getInt("rotation");
+        }
+
         NBTTagList var2 = var1.getList("Items");
         this.inventory = new ItemStack[this.getSize()];
 
@@ -251,6 +236,17 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
         }
 
         this.update();
+    }
+
+    public void onNetworkUpdate(String var1)
+    {
+        super.onNetworkUpdate(var1);
+
+        if (var1.equals("rotation") && this.prevRotation != this.rotation)
+        {
+            this.world.notify(this.x, this.y, this.z);
+            this.prevRotation = this.rotation;
+        }
     }
 
     /**
@@ -274,6 +270,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
     {
         super.b(var1);
         var1.setInt("energy", this.energy);
+        var1.setInt("rotation", this.rotation);
         NBTTagList var2 = new NBTTagList();
 
         for (int var3 = 0; var3 < this.inventory.length; ++var3)
@@ -424,7 +421,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
 
         if (this.inventory[1] != null)
         {
-            int[] var6 = ItemSensorLocationCard.getCoordinates(this.inventory[1]);
+            int[] var6 = ItemSensorLocationCardBase.getCoordinates(this.inventory[1]);
 
             if (var6 != null)
             {
@@ -542,7 +539,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
                 }
 
             case 1:
-                return var2.getItem() instanceof ItemSensorLocationCard;
+                return var2.getItem() instanceof ItemSensorLocationCardBase;
 
             default:
                 return var2.doMaterialsMatch(Items.getItem("transformerUpgrade")) || var2.doMaterialsMatch(Items.getItem("energyStorageUpgrade")) || var2.getItem() instanceof ItemRangeUpgrade;
@@ -551,11 +548,60 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements IInve
 
     public boolean wrenchCanSetFacing(EntityHuman var1, int var2)
     {
-        return this.getFacing() != var2;
+        return !var1.isSneaking() && this.getFacing() != var2;
+    }
+
+    public boolean wrenchCanRemove(EntityHuman var1)
+    {
+        return !var1.isSneaking();
     }
 
     public int modifyTextureIndex(int var1)
     {
         return var1;
+    }
+
+    public int getStartInventorySide(int var1)
+    {
+        return var1 == 1 ? 1 : 0;
+    }
+
+    public int getSizeInventorySide(int var1)
+    {
+        return var1 != 0 && var1 != 1 ? this.inventory.length : 1;
+    }
+
+    public void rotate()
+    {
+        byte var1;
+
+        switch (this.rotation)
+        {
+            case 0:
+                var1 = 1;
+                break;
+
+            case 1:
+                var1 = 3;
+                break;
+
+            case 2:
+                var1 = 0;
+                break;
+
+            case 3:
+                var1 = 2;
+                break;
+
+            default:
+                var1 = 0;
+        }
+
+        this.setRotation(var1);
+    }
+
+    public int getRotation()
+    {
+        return this.rotation;
     }
 }

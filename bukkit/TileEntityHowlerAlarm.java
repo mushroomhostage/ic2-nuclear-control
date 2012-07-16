@@ -7,8 +7,10 @@ import ic2.api.IWrenchable;
 import ic2.api.NetworkHelper;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.Facing;
+import net.minecraft.server.ModLoader;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
@@ -216,7 +218,7 @@ public class TileEntityHowlerAlarm extends TileEntity implements INetworkDataPro
         {
             if (!mod_IC2NuclearControl.availableAlarms.contains(this.soundName))
             {
-                System.out.println(String.format("[IC2NuclearControl] INFO: Can\'t set sound \'%s\' at %d,%d,%d, using default", new Object[] {this.soundName, Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)}));
+                ModLoader.getLogger().log(Level.INFO, String.format("[IC2NuclearControl] Can\'t set sound \'%s\' at %d,%d,%d, using default", new Object[] {this.soundName, Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)}));
                 this.soundName = "default";
             }
 

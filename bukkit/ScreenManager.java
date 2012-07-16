@@ -15,6 +15,11 @@ public class ScreenManager
     private final Map screens = new HashMap();
     private final Map unusedPanels = new HashMap();
 
+    private int getWorldKey(World var1)
+    {
+        return var1.getWorldData().g() == 0 ? var1.worldProvider.dimension : var1.getWorldData().g();
+    }
+
     private boolean isValidExtender(World var1, int var2, int var3, int var4, int var5)
     {
         if (var1.getTypeId(var2, var3, var4) != mod_IC2NuclearControl.blockNuclearControlMain.id)
@@ -122,15 +127,15 @@ public class ScreenManager
 
     private void destroyScreen(Screen var1)
     {
-        ((List)this.screens.get(var1.coreWorld)).remove(var1);
+        ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var1.coreWorld)))).remove(var1);
         var1.destroy();
     }
 
     public void unregisterScreenPart(TileEntity var1)
     {
-        if (this.screens.containsKey(var1.world))
+        if (this.screens.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
         {
-            if (this.unusedPanels.containsKey(var1.world))
+            if (this.unusedPanels.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
             {
                 if (var1 instanceof IScreenPart)
                 {
@@ -139,9 +144,9 @@ public class ScreenManager
 
                     if (var3 == null)
                     {
-                        if (var1 instanceof TileEntityInfoPanel && ((List)this.unusedPanels.get(var1.world)).contains(var1))
+                        if (var1 instanceof TileEntityInfoPanel && ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).contains(var1))
                         {
-                            ((List)this.unusedPanels.get(var1.world)).remove(var1);
+                            ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).remove(var1);
                         }
                     }
                     else
@@ -156,11 +161,11 @@ public class ScreenManager
 
                             if (var6 == null)
                             {
-                                ((List)this.unusedPanels.get(var4.world)).add(var4);
+                                ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var4.world)))).add(var4);
                             }
                             else
                             {
-                                ((List)this.screens.get(var4.world)).add(var6);
+                                ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var4.world)))).add(var6);
                             }
                         }
                     }
@@ -171,17 +176,17 @@ public class ScreenManager
 
     public void registerInfoPanel(TileEntityInfoPanel var1)
     {
-        if (!this.screens.containsKey(var1.world))
+        if (!this.screens.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
         {
-            this.screens.put(var1.world, new ArrayList());
+            this.screens.put(Integer.valueOf(this.getWorldKey(var1.world)), new ArrayList());
         }
 
-        if (!this.unusedPanels.containsKey(var1.world))
+        if (!this.unusedPanels.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
         {
-            this.unusedPanels.put(var1.world, new ArrayList());
+            this.unusedPanels.put(Integer.valueOf(this.getWorldKey(var1.world)), new ArrayList());
         }
 
-        Iterator var2 = ((List)this.screens.get(var1.world)).iterator();
+        Iterator var2 = ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var1.world)))).iterator();
 
         while (var2.hasNext())
         {
@@ -198,29 +203,29 @@ public class ScreenManager
 
         if (var4 != null)
         {
-            ((List)this.screens.get(var1.world)).add(var4);
+            ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var1.world)))).add(var4);
         }
         else
         {
-            ((List)this.unusedPanels.get(var1.world)).add(var1);
+            ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).add(var1);
         }
     }
 
     public void registerInfoPanelExtender(TileEntityInfoPanelExtender var1)
     {
-        if (!this.screens.containsKey(var1.world))
+        if (!this.screens.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
         {
-            this.screens.put(var1.world, new ArrayList());
+            this.screens.put(Integer.valueOf(this.getWorldKey(var1.world)), new ArrayList());
         }
 
-        if (!this.unusedPanels.containsKey(var1.world))
+        if (!this.unusedPanels.containsKey(Integer.valueOf(this.getWorldKey(var1.world))))
         {
-            this.unusedPanels.put(var1.world, new ArrayList());
+            this.unusedPanels.put(Integer.valueOf(this.getWorldKey(var1.world)), new ArrayList());
         }
 
         ArrayList var2 = new ArrayList();
         ArrayList var3 = new ArrayList();
-        Iterator var4 = ((List)this.screens.get(var1.world)).iterator();
+        Iterator var4 = ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var1.world)))).iterator();
         Screen var5;
 
         while (var4.hasNext())
@@ -246,7 +251,7 @@ public class ScreenManager
             this.destroyScreen(var5);
         }
 
-        var4 = ((List)this.unusedPanels.get(var1.world)).iterator();
+        var4 = ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).iterator();
         TileEntityInfoPanel var7;
 
         while (var4.hasNext())
@@ -268,16 +273,16 @@ public class ScreenManager
 
             if (var6 != null)
             {
-                ((List)this.screens.get(var1.world)).add(var6);
+                ((List)this.screens.get(Integer.valueOf(this.getWorldKey(var1.world)))).add(var6);
 
-                if (((List)this.unusedPanels.get(var1.world)).contains(var7))
+                if (((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).contains(var7))
                 {
-                    ((List)this.unusedPanels.get(var1.world)).remove(var7);
+                    ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).remove(var7);
                 }
             }
-            else if (!((List)this.unusedPanels.get(var1.world)).contains(var7))
+            else if (!((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).contains(var7))
             {
-                ((List)this.unusedPanels.get(var1.world)).add(var7);
+                ((List)this.unusedPanels.get(Integer.valueOf(this.getWorldKey(var1.world)))).add(var7);
             }
         }
     }

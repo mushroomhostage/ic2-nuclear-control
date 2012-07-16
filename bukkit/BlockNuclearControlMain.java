@@ -27,7 +27,7 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     public static final int DAMAGE_MAX = 5;
     public static final float[][] blockSize = new float[][] {{0.0625F, 0.0F, 0.0625F, 0.9375F, 0.4375F, 0.9375F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.125F, 0.0F, 0.125F, 0.875F, 0.4375F, 0.875F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}};
     private static final boolean[] solidBlockRequired = new boolean[] {true, true, true, false, false, false};
-    private static final byte[][][] sideMapping = new byte[][][] {{{(byte)1, (byte)0, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)0, (byte)1, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)17, (byte)17, (byte)1, (byte)0, (byte)33, (byte)33}, {(byte)17, (byte)17, (byte)0, (byte)1, (byte)33, (byte)33}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)1, (byte)0}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)0, (byte)1}}, {{(byte)4, (byte)3, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)3, (byte)4, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)5, (byte)5, (byte)4, (byte)3, (byte)6, (byte)6}, {(byte)5, (byte)5, (byte)3, (byte)4, (byte)6, (byte)6}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)4, (byte)3}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)3, (byte)4}}, {{(byte)8, (byte)7, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)7, (byte)8, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)9, (byte)9, (byte)8, (byte)7, (byte)10, (byte)10}, {(byte)9, (byte)9, (byte)7, (byte)8, (byte)10, (byte)10}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)8, (byte)7}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)7, (byte)8}}, {{(byte)23, (byte)25, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)25, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)25, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)25, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)25}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)25, (byte)23}}, {{(byte)23, (byte)11, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)11, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)11, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)11, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)11}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)11, (byte)23}}, {{(byte)39, (byte)11, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)11, (byte)39, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)39, (byte)11, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)11, (byte)39, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)39, (byte)11}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)11, (byte)39}}};
+    private static final byte[][][] sideMapping = new byte[][][] {{{(byte)1, (byte)0, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)0, (byte)1, (byte)17, (byte)17, (byte)17, (byte)17}, {(byte)17, (byte)17, (byte)1, (byte)0, (byte)33, (byte)33}, {(byte)17, (byte)17, (byte)0, (byte)1, (byte)33, (byte)33}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)1, (byte)0}, {(byte)33, (byte)33, (byte)33, (byte)33, (byte)0, (byte)1}}, {{(byte)4, (byte)3, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)3, (byte)4, (byte)5, (byte)5, (byte)5, (byte)5}, {(byte)5, (byte)5, (byte)4, (byte)3, (byte)6, (byte)6}, {(byte)5, (byte)5, (byte)3, (byte)4, (byte)6, (byte)6}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)4, (byte)3}, {(byte)6, (byte)6, (byte)6, (byte)6, (byte)3, (byte)4}}, {{(byte)8, (byte)7, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)7, (byte)8, (byte)9, (byte)9, (byte)9, (byte)9}, {(byte)9, (byte)9, (byte)8, (byte)7, (byte)10, (byte)10}, {(byte)9, (byte)9, (byte)7, (byte)8, (byte)10, (byte)10}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)8, (byte)7}, {(byte)10, (byte)10, (byte)10, (byte)10, (byte)7, (byte)8}}, {{(byte)23, (byte)25, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)25, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)25, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)25, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)25}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)25, (byte)23}}, {{(byte)23, (byte)80, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)80, (byte)23, (byte)24, (byte)24, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)23, (byte)80, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)80, (byte)23, (byte)24, (byte)24}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)23, (byte)80}, {(byte)24, (byte)24, (byte)24, (byte)24, (byte)80, (byte)23}}, {{(byte)39, (byte)80, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)80, (byte)39, (byte)40, (byte)40, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)39, (byte)80, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)80, (byte)39, (byte)40, (byte)40}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)39, (byte)80}, {(byte)40, (byte)40, (byte)40, (byte)40, (byte)80, (byte)39}}};
 
     public BlockNuclearControlMain(int var1, int var2)
     {
@@ -345,24 +345,34 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     {
         int var6 = var1.getData(var2, var3, var4);
 
-        if (var5.isSneaking())
-        {
-            return false;
-        }
-        else
+        if (!var5.isSneaking())
         {
             switch (var6)
             {
-                case DAMAGE_THERMAL_MONITOR:
-                case DAMAGE_REMOTE_THERMO:
-                case DAMAGE_HOWLER_ALARM:
-                case DAMAGE_INDUSTRIAL_ALARM:
-                case DAMAGE_INFO_PANEL:
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
                     mod_IC2NuclearControl.launchGui(var1, var2, var3, var4, var5, var6);
                     return true;
 
                 default:
                     return false;
+            }
+        }
+        else
+        {
+            TileEntity var7 = var1.getTileEntity(var2, var3, var4);
+
+            if (var7 != null && var7 instanceof IRotation && (var5.U().id == IC2NuclearControl.IC2WrenchId || var5.U().id == IC2NuclearControl.IC2ElectricWrenchId))
+            {
+                ((IRotation)var7).rotate();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

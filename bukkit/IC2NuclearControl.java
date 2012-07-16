@@ -14,7 +14,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 import net.minecraft.server.Block;
+import net.minecraft.server.CraftingManager;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
@@ -25,15 +27,24 @@ import net.minecraft.server.World;
 
 public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandler, IConnectionHandler, IPacketHandler
 {
+    protected static final int PACKET_ALARM = 1;
+    protected static final int PACKET_SENSOR = 2;
+    public static final String LOG_PREFIX = "[IC2NuclearControl] ";
     public static final String MSG_PREFIX = "ic2:nc:c7518eb6:";
     public static final String NETWORK_CHANNEL_NAME = "nuclearControl";
     protected static final String CONFIG_NUCLEAR_CONTROL = "IC2NuclearControl.cfg";
     protected static final String CONFIG_THERMO_BLOCK = "mod_thermo.cfg";
     protected static final String CONFIG_THERMOMETER = "IC2Thermometer.cfg";
+    public static int IC2WrenchId;
+    public static int IC2ElectricWrenchId;
     public static Item itemToolThermometer;
     public static Item itemToolDigitalThermometer;
     public static Item itemRemoteSensorKit;
+    public static Item itemEnergySensorKit;
     public static Item itemSensorLocationCard;
+    public static Item itemEnergySensorLocationCard;
+    public static Item itemEnergyArrayLocationCard;
+    public static Item itemTimeCard;
     public static Item itemRangeUpgrade;
     public static Block blockNuclearControlMain;
     public static int modelId;
@@ -42,13 +53,15 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
     public static int SMPMaxAlarmRange;
     public static int maxAlarmRange;
     public static List availableAlarms;
+    public static int remoteThermalMonitorEnergyConsumption;
     public static ScreenManager screenManager = new ScreenManager();
+    public static int screenRefreshPeriod;
 
     public abstract Object getGuiElement(int var1, EntityHuman var2, World var3, int var4, int var5, int var6);
 
     public String getVersion()
     {
-        return "v1.1.9";
+        return "v1.1.10";
     }
 
     protected void addRecipes()
@@ -59,15 +72,19 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
         Ic2Recipes.addCraftingRecipe(var2, new Object[] {"NNN", "ICI", "IRI", 'I', Item.IRON_INGOT, 'R', Item.REDSTONE, 'N', Block.NOTE_BLOCK, 'C', Items.getItem("electronicCircuit")});
         ItemStack var3 = new ItemStack(blockNuclearControlMain, 1, 1);
         Ic2Recipes.addCraftingRecipe(var3, new Object[] {"GOG", "GHG", "GRG", 'G', Items.getItem("reinforcedGlass"), 'O', new ItemStack(Item.INK_SACK, 1, 14), 'R', Item.REDSTONE, 'H', var2});
-        Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 3), new Object[] {" F ", " M ", " T ", 'T', var1, 'M', Items.getItem("machine"), 'F', Items.getItem("frequencyTransmitter")});
+        Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 3), new Object[] {"F", "M", "T", 'T', var1, 'M', Items.getItem("machine"), 'F', Items.getItem("frequencyTransmitter")});
         Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 4), new Object[] {"PPP", "LCL", "IRI", 'P', Block.THIN_GLASS, 'L', new ItemStack(Item.INK_SACK, 1, 10), 'I', new ItemStack(Item.INK_SACK, 1, 0), 'R', Item.REDSTONE, 'C', Items.getItem("electronicCircuit")});
         Ic2Recipes.addCraftingRecipe(new ItemStack(blockNuclearControlMain, 1, 5), new Object[] {"PPP", "WLW", "WWW", 'P', Block.THIN_GLASS, 'L', new ItemStack(Item.INK_SACK, 1, 10), 'W', Block.WOOD});
         Ic2Recipes.addCraftingRecipe(new ItemStack(itemToolThermometer, 1), new Object[] {"IG ", "GWG", " GG", 'G', Block.GLASS, 'I', Item.IRON_INGOT, 'W', Items.getItem("waterCell")});
         ItemStack var4 = new ItemStack(itemToolDigitalThermometer, 1);
         Ic2Recipes.addCraftingRecipe(var4, new Object[] {"I  ", "IC ", " GI", 'G', Item.GLOWSTONE_DUST, 'I', Items.getItem("refinedIronIngot"), 'C', Items.getItem("electronicCircuit")});
         Ic2Recipes.addCraftingRecipe(new ItemStack(itemRemoteSensorKit, 1), new Object[] {"  F", " D ", "P  ", 'P', Item.PAPER, 'D', var4, 'F', Items.getItem("frequencyTransmitter")});
-        Ic2Recipes.addCraftingRecipe(new ItemStack(itemRangeUpgrade, 1), new Object[] {"   ", "CFC", "   ", 'C', Items.getItem("insulatedCopperCableItem"), 'F', Items.getItem("frequencyTransmitter")});
+        Ic2Recipes.addCraftingRecipe(new ItemStack(itemEnergySensorKit, 1), new Object[] {"  F", " D ", "P  ", 'P', Item.PAPER, 'D', Items.getItem("ecMeter"), 'F', Items.getItem("frequencyTransmitter")});
+        Ic2Recipes.addCraftingRecipe(new ItemStack(itemRangeUpgrade, 1), new Object[] {"CFC", 'C', Items.getItem("insulatedCopperCableItem"), 'F', Items.getItem("frequencyTransmitter")});
+        Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(itemTimeCard, 1), new Object[] {Items.getItem("electronicCircuit"), Item.WATCH});
         Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(Items.getItem("electronicCircuit").getItem(), 2), new Object[] {itemSensorLocationCard});
+        Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(Items.getItem("electronicCircuit").getItem(), 2), new Object[] {itemEnergySensorLocationCard});
+        CraftingManager.getInstance().getRecipies().add(new StorageArrayRecipe());
     }
 
     protected static int getIdFor(Configuration var0, String var1, int var2, boolean var3)
@@ -78,7 +95,7 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
         }
         catch (Exception var5)
         {
-            System.out.println("Can\'t get id for :" + var1);
+            ModLoader.getLogger().log(Level.WARNING, "[IC2NuclearControl] Can\'t get id for:" + var1);
             return var2;
         }
     }
@@ -91,6 +108,10 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
         itemRemoteSensorKit = (new ItemRemoteSensorKit(getIdFor(var1, "itemRemoteSensorKit", 31002, false), 34)).a("ItemRemoteSensorKit");
         itemSensorLocationCard = (new ItemSensorLocationCard(getIdFor(var1, "itemSensorLocationCard", 31003, false), 50)).a("ItemSensorLocationCard");
         itemRangeUpgrade = (new ItemRangeUpgrade(getIdFor(var1, "itemRangeUpgrade", 31004, false), 66)).a("ItemRangeUpgrade");
+        itemTimeCard = (new ItemTimeCard(getIdFor(var1, "itemTimeCard", 31005, false), 48)).a("ItemTimeCard");
+        itemEnergySensorKit = (new ItemEnergySensorKit(getIdFor(var1, "itemEnergySensorKit", 31006, false), 65)).a("ItemEnergySensorKit");
+        itemEnergySensorLocationCard = (new ItemEnergySensorLocationCard(getIdFor(var1, "itemEnergySensorLocationCard", 31007, false), 49)).a("ItemEnergySensorLocationCard");
+        itemEnergyArrayLocationCard = (new ItemEnergyArrayLocationCard(getIdFor(var1, "itemEnergyArrayLocationCard", 31008, false), 51)).a("ItemEnergyArrayLocationCard");
     }
 
     protected abstract File getConfigFile(String var1);
@@ -156,6 +177,8 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
     public void modsLoaded()
     {
         super.modsLoaded();
+        IC2WrenchId = Items.getItem("wrench").id;
+        IC2ElectricWrenchId = Items.getItem("electricWrench").id;
         MinecraftForge.registerConnectionHandler(this);
         this.addRecipes();
     }
@@ -168,7 +191,7 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
         }
         catch (Exception var5)
         {
-            System.out.println("Can\'t get id for :" + var2);
+            ModLoader.getLogger().log(Level.WARNING, "[IC2NuclearControl] Can\'t get id for:" + var2);
             return var3;
         }
     }
@@ -193,4 +216,9 @@ public abstract class IC2NuclearControl extends NetworkMod implements IGuiHandle
     public void onLogin(NetworkManager var1, Packet1Login var2) {}
 
     public abstract void load();
+
+    public String getPriorities()
+    {
+        return "after:mod_IC2";
+    }
 }

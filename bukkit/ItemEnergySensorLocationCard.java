@@ -3,9 +3,9 @@ package nuclearcontrol;
 import java.util.List;
 import net.minecraft.server.ItemStack;
 
-public class ItemSensorLocationCard extends ItemSensorLocationCardBase
+public class ItemEnergySensorLocationCard extends ItemEnergySensorLocationCardBase
 {
-    public ItemSensorLocationCard(int var1, int var2)
+    public ItemEnergySensorLocationCard(int var1, int var2)
     {
         super(var1, var2);
     }

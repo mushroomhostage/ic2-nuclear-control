@@ -12,7 +12,7 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
 
-public class TileEntityInfoPanelExtender extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, IWrenchable, ITextureHelper, IScreenPart
+public class TileEntityInfoPanelExtender extends TileEntity implements INetworkDataProvider, INetworkUpdateListener, IWrenchable, ITextureHelper, IScreenPart, IRotation
 {
     protected boolean init = false;
     private Screen screen = null;
@@ -125,7 +125,7 @@ public class TileEntityInfoPanelExtender extends TileEntity implements INetworkD
 
     public boolean wrenchCanSetFacing(EntityHuman var1, int var2)
     {
-        return this.getFacing() != var2;
+        return !var1.isSneaking() && this.getFacing() != var2;
     }
 
     public float getWrenchDropRate()
@@ -135,12 +135,12 @@ public class TileEntityInfoPanelExtender extends TileEntity implements INetworkD
 
     public boolean wrenchCanRemove(EntityHuman var1)
     {
-        return true;
+        return !var1.isSneaking();
     }
 
     public int modifyTextureIndex(int var1)
     {
-        return var1 == 11 && this.screen != null && this.screen.getCore() != null && this.screen.getCore().powered ? var1 + 16 : var1;
+        return var1 != 80 ? var1 : (this.screen != null && this.screen.getCore() != null ? this.screen.getCore().modifyTextureIndex(var1, this.x, this.y, this.z) : var1 + 15);
     }
 
     public void setScreen(Screen var1)
@@ -151,5 +151,26 @@ public class TileEntityInfoPanelExtender extends TileEntity implements INetworkD
     public Screen getScreen()
     {
         return this.screen;
+    }
+
+    public void rotate()
+    {
+        if (this.screen != null)
+        {
+            this.screen.getCore().rotate();
+        }
+    }
+
+    public int getRotation()
+    {
+        return this.screen != null ? this.screen.getCore().rotation : 0;
+    }
+
+    public void setRotation(int var1)
+    {
+        if (this.screen != null)
+        {
+            this.screen.getCore().setRotation(var1);
+        }
     }
 }

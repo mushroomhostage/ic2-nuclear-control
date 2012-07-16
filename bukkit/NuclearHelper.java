@@ -143,62 +143,97 @@ public class NuclearHelper
 
     public static TileEntity getReactorAt(World var0, int var1, int var2, int var3)
     {
-        TileEntity var4 = var0.getTileEntity(var1, var2, var3);
-        return getReactorTileEntityClass().isInstance(var4) && var0.getTypeId(var1, var2, var3) == getReactor().id && var0.getData(var1, var2, var3) == getReactor().getData() ? var4 : null;
+        if (var0 == null)
+        {
+            return null;
+        }
+        else
+        {
+            TileEntity var4 = var0.getTileEntity(var1, var2, var3);
+            return getReactorTileEntityClass().isInstance(var4) && var0.getTypeId(var1, var2, var3) == getReactor().id && var0.getData(var1, var2, var3) == getReactor().getData() ? var4 : null;
+        }
     }
 
     public static TileEntity getReactorChamberAt(World var0, int var1, int var2, int var3)
     {
-        TileEntity var4 = var0.getTileEntity(var1, var2, var3);
-        return getReactorChamberTileEntityClass().isInstance(var4) && var0.getTypeId(var1, var2, var3) == getChamber().id && var0.getData(var1, var2, var3) == getChamber().getData() ? var4 : null;
+        if (var0 == null)
+        {
+            return null;
+        }
+        else
+        {
+            TileEntity var4 = var0.getTileEntity(var1, var2, var3);
+            return getReactorChamberTileEntityClass().isInstance(var4) && var0.getTypeId(var1, var2, var3) == getChamber().id && var0.getData(var1, var2, var3) == getChamber().getData() ? var4 : null;
+        }
     }
 
     public static TileEntity getReactorAroundCoord(World var0, int var1, int var2, int var3)
     {
-        ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
-        TileEntity var5 = null;
-
-        for (int var6 = 0; var6 < 6 && var5 == null; ++var6)
+        if (var0 == null)
         {
-            ChunkPosition var7 = var4[var6];
-            var5 = getReactorAt(var0, var1 + var7.x, var2 + var7.y, var3 + var7.z);
+            return null;
         }
+        else
+        {
+            ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
+            TileEntity var5 = null;
 
-        return var5;
+            for (int var6 = 0; var6 < 6 && var5 == null; ++var6)
+            {
+                ChunkPosition var7 = var4[var6];
+                var5 = getReactorAt(var0, var1 + var7.x, var2 + var7.y, var3 + var7.z);
+            }
+
+            return var5;
+        }
     }
 
     public static TileEntity getReactorChamberAroundCoord(World var0, int var1, int var2, int var3)
     {
-        ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
-        TileEntity var5 = null;
-
-        for (int var6 = 0; var6 < 6 && var5 == null; ++var6)
+        if (var0 == null)
         {
-            ChunkPosition var7 = var4[var6];
-            var5 = getReactorChamberAt(var0, var1 + var7.x, var2 + var7.y, var3 + var7.z);
+            return null;
         }
+        else
+        {
+            ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
+            TileEntity var5 = null;
 
-        return var5;
+            for (int var6 = 0; var6 < 6 && var5 == null; ++var6)
+            {
+                ChunkPosition var7 = var4[var6];
+                var5 = getReactorChamberAt(var0, var1 + var7.x, var2 + var7.y, var3 + var7.z);
+            }
+
+            return var5;
+        }
     }
 
     public static int getReactorChamberCountAroundCoord(World var0, int var1, int var2, int var3)
     {
-        ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
-        int var5 = 0;
-        TileEntity var6 = null;
-
-        for (int var7 = 0; var7 < 6; ++var7)
+        if (var0 == null)
         {
-            ChunkPosition var8 = var4[var7];
-            var6 = getReactorChamberAt(var0, var1 + var8.x, var2 + var8.y, var3 + var8.z);
-
-            if (var6 != null)
-            {
-                ++var5;
-            }
+            return 0;
         }
+        else
+        {
+            ChunkPosition[] var4 = new ChunkPosition[] {new ChunkPosition(-1, 0, 0), new ChunkPosition(1, 0, 0), new ChunkPosition(0, -1, 0), new ChunkPosition(0, 1, 0), new ChunkPosition(0, 0, -1), new ChunkPosition(0, 0, 1)};
+            int var5 = 0;
+            TileEntity var6 = null;
 
-        return var5;
+            for (int var7 = 0; var7 < 6; ++var7)
+            {
+                ChunkPosition var8 = var4[var7];
+                var6 = getReactorChamberAt(var0, var1 + var8.x, var2 + var8.y, var3 + var8.z);
+
+                if (var6 != null)
+                {
+                    ++var5;
+                }
+            }
+
+            return var5;
+        }
     }
 
     public static int getMaxHeat(TileEntity var0)

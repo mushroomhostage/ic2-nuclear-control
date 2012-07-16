@@ -120,14 +120,14 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         }
 
         this.prevHeatLevel = this.heatLevel;
-        this.mappedHeatLevel = var1 / 500 * 500;
+        this.mappedHeatLevel = var1 / 100 * 100;
     }
 
     public void setHeatLevelWithoutNotify(int var1)
     {
         this.heatLevel = var1;
         this.prevHeatLevel = this.heatLevel;
-        this.mappedHeatLevel = var1 / 500 * 500;
+        this.mappedHeatLevel = var1 / 100 * 100;
     }
 
     public int getHeatLevel()

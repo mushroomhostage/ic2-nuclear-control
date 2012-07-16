@@ -1,6 +1,9 @@
 package nuclearcontrol;
 
-import net.minecraft.server.*;
+import net.minecraft.server.Container;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.ItemStack;
+import net.minecraft.server.Slot;
 
 public class ContainerInfoPanel extends Container
 {
@@ -28,17 +31,6 @@ public class ContainerInfoPanel extends Container
             this.a(new Slot(var1.inventory, var3, 8 + var3 * 18, 142));
         }
     }
-
-    public EntityHuman getPlayer()
-    {
-        return player;
-    }
-
-    public IInventory getInventory()
-    {
-        return panel;
-    }
-
 
     public boolean b(EntityHuman var1)
     {

@@ -73,13 +73,13 @@ public class ItemToolThermometer extends Item implements ITextureProvider
     {
         int var3 = NuclearHelper.getReactorHeat(var2);
 
-        switch (this.thermometerVersion)
+        switch (ItemToolThermometer.NamelessClass1594073749.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
         {
-            case ANALOG:
+            case 1:
                 mod_IC2NuclearControl.chatMessage(var1, "ic2:nc:c7518eb6:Thermo:" + var3);
                 break;
 
-            case DIGITAL:
+            case 2:
                 int var4 = NuclearHelper.getMaxHeat(var2);
                 mod_IC2NuclearControl.chatMessage(var1, "ic2:nc:c7518eb6:ThermoDigital:" + var3 + ":" + var4 * 50 / 100 + ":" + var4 * 85 / 100);
         }
@@ -87,14 +87,40 @@ public class ItemToolThermometer extends Item implements ITextureProvider
 
     public void damage(ItemStack var1, int var2, EntityHuman var3)
     {
-        switch (this.thermometerVersion)
+        switch (ItemToolThermometer.NamelessClass1594073749.$SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[this.thermometerVersion.ordinal()])
         {
-            case ANALOG:
+            case 1:
                 var1.damage(10, var3);
                 break;
 
-            case DIGITAL:
+            case 2:
                 ElectricItem.use(var1, 50 * var2, var3);
+        }
+    }
+
+    static class NamelessClass1594073749
+    {
+        static final int[] $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion = new int[ThermometerVersion.values().length];
+
+        static
+        {
+            try
+            {
+                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.ANALOG.ordinal()] = 1;
+            }
+            catch (NoSuchFieldError var2)
+            {
+                ;
+            }
+
+            try
+            {
+                $SwitchMap$net.minecraft.server$nuclearcontrol$ThermometerVersion[ThermometerVersion.DIGITAL.ordinal()] = 2;
+            }
+            catch (NoSuchFieldError var1)
+            {
+                ;
+            }
         }
     }
 }
