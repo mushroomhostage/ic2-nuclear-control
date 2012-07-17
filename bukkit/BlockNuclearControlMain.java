@@ -345,7 +345,21 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     {
         int var6 = var1.getData(var2, var3, var4);
 
-        if (!var5.isSneaking())
+        if (var5 != null && var5.isSneaking())
+        {
+            TileEntity var7 = var1.getTileEntity(var2, var3, var4);
+
+            if (var7 != null && var7 instanceof IRotation && var5.U() != null && (var5.U().id == IC2NuclearControl.IC2WrenchId || var5.U().id == IC2NuclearControl.IC2ElectricWrenchId))
+            {
+                ((IRotation)var7).rotate();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
         {
             switch (var6)
             {
@@ -359,20 +373,6 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
 
                 default:
                     return false;
-            }
-        }
-        else
-        {
-            TileEntity var7 = var1.getTileEntity(var2, var3, var4);
-
-            if (var7 != null && var7 instanceof IRotation && (var5.U().id == IC2NuclearControl.IC2WrenchId || var5.U().id == IC2NuclearControl.IC2ElectricWrenchId))
-            {
-                ((IRotation)var7).rotate();
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

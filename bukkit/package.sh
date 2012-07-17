@@ -6,4 +6,4 @@ mkdir -p nuclearcontrol/panel
 cp panel/*.class nuclearcontrol/panel/
 mv mod_IC2NuclearControl.class net/minecraft/server
 mv *.class nuclearcontrol/
-zip -r mod_IC2NuclearControl-1.1.10-mcpc-r1.zip net/ nuclearcontrol/
+zip -r mod_IC2NuclearControl-1.1.10b-mcpc-r1.zip net/ nuclearcontrol/
