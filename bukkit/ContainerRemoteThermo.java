@@ -12,24 +12,24 @@ public class ContainerRemoteThermo extends Container
     {
         this.remoteThermo = var2;
         this.player = var1;
-        this.a(new SlotFilter(var2, 0, 24, 52));
-        this.a(new SlotFilter(var2, 1, 152, 8));
-        this.a(new SlotFilter(var2, 2, 152, 26));
-        this.a(new SlotFilter(var2, 3, 152, 44));
-        this.a(new SlotFilter(var2, 4, 152, 62));
+        this.a(new SlotFilter(var2, 0, 27, 52));
+        this.a(new SlotFilter(var2, 1, 190, 8));
+        this.a(new SlotFilter(var2, 2, 190, 26));
+        this.a(new SlotFilter(var2, 3, 190, 44));
+        this.a(new SlotFilter(var2, 4, 190, 62));
         int var3;
 
         for (var3 = 0; var3 < 3; ++var3)
         {
             for (int var4 = 0; var4 < 9; ++var4)
             {
-                this.a(new Slot(var1.inventory, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+                this.a(new Slot(var1.inventory, var4 + var3 * 9 + 9, 27 + var4 * 18, 84 + var3 * 18));
             }
         }
 
         for (var3 = 0; var3 < 9; ++var3)
         {
-            this.a(new Slot(var1.inventory, var3, 8 + var3 * 18, 142));
+            this.a(new Slot(var1.inventory, var3, 27 + var3 * 18, 142));
         }
     }
 

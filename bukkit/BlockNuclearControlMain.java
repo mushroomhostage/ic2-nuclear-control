@@ -345,11 +345,27 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
     {
         int var6 = var1.getData(var2, var3, var4);
 
-        if (var5 != null && var5.isSneaking())
+        if (!var5.isSneaking())
+        {
+            switch (var6)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    mod_IC2NuclearControl.launchGui(var1, var2, var3, var4, var5, var6);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+        else
         {
             TileEntity var7 = var1.getTileEntity(var2, var3, var4);
 
-            if (var7 != null && var7 instanceof IRotation && var5.U() != null && (var5.U().id == IC2NuclearControl.IC2WrenchId || var5.U().id == IC2NuclearControl.IC2ElectricWrenchId))
+            if (var7 != null && var7 instanceof IRotation && (var5.U().id == IC2NuclearControl.IC2WrenchId || var5.U().id == IC2NuclearControl.IC2ElectricWrenchId))
             {
                 ((IRotation)var7).rotate();
                 return true;
@@ -357,22 +373,6 @@ public class BlockNuclearControlMain extends BlockContainer implements ITextureP
             else
             {
                 return false;
-            }
-        }
-        else
-        {
-            switch (var6)
-            {
-                case DAMAGE_THERMAL_MONITOR:
-                case DAMAGE_REMOTE_THERMO:
-                case DAMAGE_HOWLER_ALARM:
-                case DAMAGE_INDUSTRIAL_ALARM:
-                case DAMAGE_INFO_PANEL:
-                    mod_IC2NuclearControl.launchGui(var1, var2, var3, var4, var5, var6);
-                    return true;
-
-                default:
-                    return false;
             }
         }
     }

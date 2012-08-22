@@ -1,10 +1,10 @@
 package nuclearcontrol;
 
 import forge.ITextureProvider;
+import ic2.api.IEnergyStorage;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 import net.minecraft.server.mod_IC2NuclearControl;
 
@@ -30,7 +30,7 @@ public class ItemEnergySensorKit extends Item implements ITextureProvider
         }
         else
         {
-            TileEntity var8 = EnergyStorageHelper.getStorageAt(var3, var4, var5, var6);
+            IEnergyStorage var8 = EnergyStorageHelper.getStorageAt(var3, var4, var5, var6);
 
             if (var8 == null)
             {
@@ -39,7 +39,7 @@ public class ItemEnergySensorKit extends Item implements ITextureProvider
             else
             {
                 ItemStack var9 = new ItemStack(mod_IC2NuclearControl.itemEnergySensorLocationCard, 1, 0);
-                ItemSensorLocationCardBase.setCoordinates(var9, var8.x, var8.y, var8.z);
+                ItemSensorLocationCardBase.setCoordinates(var9, var4, var5, var6);
                 var2.inventory.items[var2.inventory.itemInHandIndex] = var9;
 
                 if (!var3.isStatic)

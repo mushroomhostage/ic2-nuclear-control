@@ -3,6 +3,8 @@ package nuclearcontrol;
 import ic2.api.INetworkClientTileEntityEventListener;
 import ic2.api.INetworkDataProvider;
 import ic2.api.INetworkUpdateListener;
+import ic2.api.IReactor;
+import ic2.api.IReactorChamber;
 import ic2.api.IWrenchable;
 import ic2.api.NetworkHelper;
 import java.util.List;
@@ -168,12 +170,12 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
 
     protected void checkStatus()
     {
-        TileEntity var2 = NuclearHelper.getReactorChamberAroundCoord(this.world, this.x, this.y, this.z);
-        TileEntity var3 = null;
+        IReactorChamber var2 = NuclearHelper.getReactorChamberAroundCoord(this.world, this.x, this.y, this.z);
+        IReactor var3 = null;
 
         if (var2 != null)
         {
-            var3 = NuclearHelper.getReactorAroundCoord(this.world, var2.x, var2.y, var2.z);
+            var3 = var2.getReactor();
         }
 
         if (var3 == null)
@@ -187,7 +189,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
         {
             if (this.tickRate == -1)
             {
-                this.tickRate = NuclearHelper.getReactorTickRate(var3) / 2;
+                this.tickRate = var3.getTickRate() / 2;
 
                 if (this.tickRate == 0)
                 {
@@ -197,7 +199,7 @@ public class TileEntityIC2Thermo extends TileEntity implements INetworkDataProvi
                 this.updateTicker = this.tickRate;
             }
 
-            int var4 = NuclearHelper.getReactorHeat(var3);
+            int var4 = var3.getHeat();
 
             if (var4 >= this.mappedHeatLevel)
             {

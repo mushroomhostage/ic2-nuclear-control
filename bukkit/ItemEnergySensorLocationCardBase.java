@@ -1,6 +1,7 @@
 package nuclearcontrol;
 
 import forge.ITextureProvider;
+import ic2.api.IEnergyStorage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.Map;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
 import nuclearcontrol.panel.IPanelDataSource;
 
@@ -121,13 +121,13 @@ public abstract class ItemEnergySensorLocationCardBase extends Item implements I
 
             if (Math.abs(var7) <= var3 && Math.abs(var8) <= var3 && Math.abs(var9) <= var3)
             {
-                TileEntity var10 = EnergyStorageHelper.getStorageAt(var1.world, var5[0], var5[1], var5[2]);
+                IEnergyStorage var10 = EnergyStorageHelper.getStorageAt(var1.world, var5[0], var5[1], var5[2]);
 
                 if (var10 != null)
                 {
                     this.setField("activeData", true, var4, var1, var6);
-                    this.setField("energy", EnergyStorageHelper.getStorageEnergy(var10), var4, var1, var6);
-                    this.setField("maxStorage", EnergyStorageHelper.getStorageMaxStorage(var10), var4, var1, var6);
+                    this.setField("energy", var10.getStored(), var4, var1, var6);
+                    this.setField("maxStorage", var10.getCapacity(), var4, var1, var6);
                 }
                 else
                 {

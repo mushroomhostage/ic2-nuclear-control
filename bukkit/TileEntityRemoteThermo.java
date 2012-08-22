@@ -6,6 +6,7 @@ import ic2.api.ElectricItem;
 import ic2.api.EnergyNet;
 import ic2.api.IElectricItem;
 import ic2.api.IEnergySink;
+import ic2.api.IReactor;
 import ic2.api.Items;
 import ic2.api.NetworkHelper;
 import java.util.List;
@@ -92,13 +93,13 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements ISide
 
         if (this.energy >= IC2NuclearControl.remoteThermalMonitorEnergyConsumption)
         {
-            TileEntity var2 = NuclearHelper.getReactorAt(this.world, this.x + this.deltaX, this.y + this.deltaY, this.z + this.deltaZ);
+            IReactor var2 = NuclearHelper.getReactorAt(this.world, this.x + this.deltaX, this.y + this.deltaY, this.z + this.deltaZ);
 
             if (var2 != null)
             {
                 if (this.tickRate == -1)
                 {
-                    this.tickRate = NuclearHelper.getReactorTickRate(var2) / 2;
+                    this.tickRate = var2.getTickRate() / 2;
 
                     if (this.tickRate == 0)
                     {
@@ -108,7 +109,7 @@ public class TileEntityRemoteThermo extends TileEntityIC2Thermo implements ISide
                     this.updateTicker = this.tickRate;
                 }
 
-                int var3 = NuclearHelper.getReactorHeat(var2);
+                int var3 = var2.getHeat();
                 var1 = var3;
             }
             else

@@ -1,6 +1,7 @@
 package nuclearcontrol;
 
 import forge.ITextureProvider;
+import ic2.api.IReactor;
 import ic2.api.Items;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import net.minecraft.server.IInventory;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
 import nuclearcontrol.panel.IPanelDataSource;
 
@@ -126,15 +126,15 @@ public abstract class ItemSensorLocationCardBase extends Item implements ITextur
 
             if (Math.abs(var7) <= var3 && Math.abs(var8) <= var3 && Math.abs(var9) <= var3)
             {
-                TileEntity var10 = NuclearHelper.getReactorAt(var1.world, var5[0], var5[1], var5[2]);
+                IReactor var10 = NuclearHelper.getReactorAt(var1.world, var5[0], var5[1], var5[2]);
 
                 if (var10 != null)
                 {
                     this.setField("activeData", true, var4, var1, var6);
-                    this.setField("heat", NuclearHelper.getReactorHeat(var10), var4, var1, var6);
-                    this.setField("maxHeat", NuclearHelper.getMaxHeat(var10), var4, var1, var6);
-                    this.setField("reactorPowered", NuclearHelper.getReactorIsProducingEnergy(var10), var4, var1, var6);
-                    this.setField("output", NuclearHelper.getReactorOutput(var10), var4, var1, var6);
+                    this.setField("heat", var10.getHeat(), var4, var1, var6);
+                    this.setField("maxHeat", var10.getMaxHeat(), var4, var1, var6);
+                    this.setField("reactorPowered", NuclearHelper.isProducing(var10), var4, var1, var6);
+                    this.setField("output", var10.getOutput(), var4, var1, var6);
                     IInventory var11 = (IInventory)var10;
                     int var12 = var11.getSize();
                     int var13 = 0;

@@ -1,10 +1,12 @@
 package nuclearcontrol;
 
 import forge.ITextureProvider;
+import ic2.api.IReactor;
+import ic2.api.IReactorChamber;
+import net.minecraft.server.ChunkCoordinates;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 import net.minecraft.server.mod_IC2NuclearControl;
 
@@ -30,22 +32,23 @@ public class ItemRemoteSensorKit extends Item implements ITextureProvider
         }
         else
         {
-            TileEntity var8 = NuclearHelper.getReactorAt(var3, var4, var5, var6);
+            IReactor var8 = NuclearHelper.getReactorAt(var3, var4, var5, var6);
 
             if (var8 == null)
             {
-                TileEntity var9 = NuclearHelper.getReactorChamberAt(var3, var4, var5, var6);
+                IReactorChamber var9 = NuclearHelper.getReactorChamberAt(var3, var4, var5, var6);
 
                 if (var9 != null)
                 {
-                    var8 = NuclearHelper.getReactorAroundCoord(var3, var4, var5, var6);
+                    var8 = var9.getReactor();
                 }
             }
 
             if (var8 != null)
             {
+                ChunkCoordinates var11 = var8.getPosition();
                 ItemStack var10 = new ItemStack(mod_IC2NuclearControl.itemSensorLocationCard, 1, 0);
-                ItemSensorLocationCardBase.setCoordinates(var10, var8.x, var8.y, var8.z);
+                ItemSensorLocationCardBase.setCoordinates(var10, var11.x, var11.y, var11.z);
                 var2.inventory.items[var2.inventory.itemInHandIndex] = var10;
 
                 if (!var3.isStatic)

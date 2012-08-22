@@ -1,6 +1,7 @@
 package nuclearcontrol;
 
 import forge.ITextureProvider;
+import ic2.api.IEnergyStorage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +11,6 @@ import java.util.Vector;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.mod_IC2NuclearControl;
 import nuclearcontrol.panel.IPanelDataSource;
 
@@ -179,13 +179,13 @@ public abstract class ItemEnergyArrayLocationCardBase extends Item implements IT
 
                 if (Math.abs(var10) <= var3 && Math.abs(var11) <= var3 && Math.abs(var12) <= var3)
                 {
-                    TileEntity var13 = EnergyStorageHelper.getStorageAt(var1.world, var9[0], var9[1], var9[2]);
+                    IEnergyStorage var13 = EnergyStorageHelper.getStorageAt(var1.world, var9[0], var9[1], var9[2]);
 
                     if (var13 != null)
                     {
                         this.setField("activeData", true, var4, var1, var6);
-                        this.setField(String.format("_%denergy", new Object[] {Integer.valueOf(var8)}), EnergyStorageHelper.getStorageEnergy(var13), var4, var1, var6);
-                        this.setField(String.format("_%dmaxStorage", new Object[] {Integer.valueOf(var8)}), EnergyStorageHelper.getStorageMaxStorage(var13), var4, var1, var6);
+                        this.setField(String.format("_%denergy", new Object[] {Integer.valueOf(var8)}), var13.getStored(), var4, var1, var6);
+                        this.setField(String.format("_%dmaxStorage", new Object[] {Integer.valueOf(var8)}), var13.getCapacity(), var4, var1, var6);
                         var7 = true;
                     }
                 }
