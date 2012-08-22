@@ -2,10 +2,11 @@ package nuclearcontrol;
 
 import forge.ITextureProvider;
 import ic2.api.ElectricItem;
+import ic2.api.IReactor;
+import ic2.api.IReactorChamber;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.Item;
 import net.minecraft.server.ItemStack;
-import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 import net.minecraft.server.mod_IC2NuclearControl;
 
@@ -40,15 +41,15 @@ public class ItemToolThermometer extends Item implements ITextureProvider
         }
         else
         {
-            TileEntity var8 = NuclearHelper.getReactorAt(var3, var4, var5, var6);
+            IReactor var8 = NuclearHelper.getReactorAt(var3, var4, var5, var6);
 
             if (var8 == null)
             {
-                TileEntity var9 = NuclearHelper.getReactorChamberAt(var3, var4, var5, var6);
+                IReactorChamber var9 = NuclearHelper.getReactorChamberAt(var3, var4, var5, var6);
 
                 if (var9 != null)
                 {
-                    var8 = NuclearHelper.getReactorAroundCoord(var3, var4, var5, var6);
+                    var8 = var9.getReactor();
                 }
             }
 
@@ -69,9 +70,9 @@ public class ItemToolThermometer extends Item implements ITextureProvider
         }
     }
 
-    public void messagePlayer(EntityHuman var1, TileEntity var2)
+    public void messagePlayer(EntityHuman var1, IReactor var2)
     {
-        int var3 = NuclearHelper.getReactorHeat(var2);
+        int var3 = var2.getHeat();
 
         switch (thermometerVersion)
         {
@@ -80,7 +81,7 @@ public class ItemToolThermometer extends Item implements ITextureProvider
                 break;
 
             case DIGITAL:
-                int var4 = NuclearHelper.getMaxHeat(var2);
+                int var4 = var2.getMaxHeat();
                 mod_IC2NuclearControl.chatMessage(var1, "ic2:nc:c7518eb6:ThermoDigital:" + var3 + ":" + var4 * 50 / 100 + ":" + var4 * 85 / 100);
         }
     }
